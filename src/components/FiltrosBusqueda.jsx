@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 function FiltrosBusqueda({ filtroEspecie, filtroEstado, onCambioEspecie, onCambioEstado }) {
   return (
     <div className="filtros">
@@ -33,6 +35,13 @@ function FiltrosBusqueda({ filtroEspecie, filtroEstado, onCambioEspecie, onCambi
 
     </div>
   )
+}
+
+FiltrosBusqueda.propTypes = {
+  filtroEspecie: PropTypes.string.isRequired,
+  filtroEstado: PropTypes.string.isRequired,
+  onCambioEspecie: PropTypes.func.isRequired,
+  onCambioEstado: PropTypes.func.isRequired,
 }
 
 export default FiltrosBusqueda

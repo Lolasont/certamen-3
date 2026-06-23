@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import FilaDesembarque from './FilaDesembarque'
 
 function ListaDesembarques({ desembarques, prioritarios, onTogglePrioritario, cargando, error }) {
@@ -57,6 +58,18 @@ function ListaDesembarques({ desembarques, prioritarios, onTogglePrioritario, ca
       </table>
     </div>
   )
+}
+
+ListaDesembarques.propTypes = {
+  desembarques: PropTypes.arrayOf(PropTypes.object).isRequired,
+  prioritarios: PropTypes.instanceOf(Set).isRequired,
+  onTogglePrioritario: PropTypes.func.isRequired,
+  cargando: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+}
+
+ListaDesembarques.defaultProps = {
+  error: null,
 }
 
 export default ListaDesembarques

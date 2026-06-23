@@ -117,3 +117,12 @@ const res = await fetch(import.meta.env.VITE_API_URL)
 ```
 
 Así, si cambia la URL del servidor, solo hay que editar el `.env` sin tocar el código.
+
+### Hallazgo 3 – Props sin validación de tipo
+
+**Problema:** SonarLint reportó que todos los componentes que reciben 
+props no declaraban el tipo esperado de cada una.
+
+**Corrección:** Se agregó PropTypes en FilaDesembarque, FiltrosBusqueda 
+y ListaDesembarques, especificando si cada prop es string, number, 
+bool, func, etc. Así React avisa en consola si llega un tipo incorrecto.
