@@ -12,6 +12,7 @@ npx json-server --watch db.json --port 3001
 
 **Terminal 2 – Levantar la app:**
 ```
+npm install prop-types
 npm install
 npm run dev
 ```
@@ -93,8 +94,12 @@ useEffect(() => {
 ```js
 // Versión corregida
 const [prioritarios, setPrioritarios] = useState(() => {
-  const guardados = localStorage.getItem('prioritarios')
-  return guardados ? new Set(JSON.parse(guardados)) : new Set()
+  try {
+    const guardados = localStorage.getItem('prioritarios')
+    return guardados ? new Set(JSON.parse(guardados)) : new Set()
+  } catch {
+    return new Set()
+  }
 })
 ```
 
@@ -118,11 +123,26 @@ const res = await fetch(import.meta.env.VITE_API_URL)
 
 Así, si cambia la URL del servidor, solo hay que editar el `.env` sin tocar el código.
 
+---
+
 ### Hallazgo 3 – Props sin validación de tipo
 
-**Problema:** SonarLint reportó que todos los componentes que reciben 
-props no declaraban el tipo esperado de cada una.
+**Problema:** SonarLint reportó que todos los componentes que reciben props no declaraban el tipo esperado de cada una.
 
-**Corrección:** Se agregó PropTypes en FilaDesembarque, FiltrosBusqueda 
-y ListaDesembarques, especificando si cada prop es string, number, 
-bool, func, etc. Así React avisa en consola si llega un tipo incorrecto.
+**Corrección:** Se agregó PropTypes en FilaDesembarque, FiltrosBusqueda y ListaDesembarques, especificando si cada prop es string, number, bool, func, etc. Así React avisa en consola si llega un tipo incorrecto.
+
+```js
+// Ejemplo en FilaDesembarque
+FilaDesembarque.propTypes = {
+  lote: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    especie: PropTypes.string.isRequired,
+    embarcacion: PropTypes.string.isRequired,
+    fecha: PropTypes.string.isRequired,
+    kilos: PropTypes.number.isRequired,
+    estado: PropTypes.string.isRequired,
+  }).isRequired,
+  esPrioritario: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired,
+}
+```
